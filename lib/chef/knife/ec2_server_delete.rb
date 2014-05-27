@@ -82,7 +82,7 @@ class Chef
             ui.error("Server id \"#{eip.server_id}\" is associated with this elastic ip. We cannot delete it.")
             exit 1
           end
-          association_id = eip.attributes.fetch("associationId", nil)
+          association_id = eip.association_id.nil? ? nil : eip.association_id
           connection.disassociate_address(public_ip, association_id)
           ui.info("Waiting for Elastic IP to Disassociate")
           eip.wait_for { print '.'; server_id == nil }
